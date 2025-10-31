@@ -1,0 +1,4 @@
+2025-10-31 11:45:08.149 [INFO    ] test_hand_tracking.run_hand_tracking_test: Starting hand tracking test program.
+2025-10-31 11:45:08.149 [INFO    ] mediapipe_hands_model.load_configurations: Loading hands detection configs and model configuration
+2025-10-31 11:45:08.149 [INFO    ] mediapipe_hands_model.load_configurations: Loaded configuration - Min Tracking Confidence: 0.70, Min Detection Confidence: 0.70
+2025-10-31 11:45:08.585 [INFO    ] test_hand_tracking.run_hand_tracking_test: Webcam opened. Starting main loop... (Press 'ESC' to exit)

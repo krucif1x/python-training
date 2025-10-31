@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 from mediapipe.python.solutions import hands
@@ -61,51 +60,34 @@ class MediapipeHandsModel(BaseModelInference):
         """
         return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
-    def inference(self, image : np.ndarray, preprocessed : bool = True):
+    def inference(self, image: np.ndarray, preprocessed: bool = True):
         """
         Perform inference using the MediaPipe Hands model, extract the relevant hand landmarks,
-        and return them as a list of tuples.
+        and return both the raw MediaPipe result and a list of hand landmarks.
 
         Parameters
         ----------
-        image : cv2.Mat
+        image : np.ndarray
             The input image to process.
+        preprocessed : bool
+            Whether the image is already in RGB format.
 
         Returns
         -------
-        list
-            A list of lists of hand landmarks, where each inner list contains landmarks of one hand.
-            Each landmark contains the (x, y, z) coordinates. To use them, simply loop over the list 
-            and access the coordinates.
-
-            Example:
-            ```
-                [
-                    [
-                        (0.574, 0.216, 0.012),  # Landmark 0 (wrist)
-                        (0.596, 0.312, 0.011),  # Landmark 1 (thumb base)
-                        (0.621, 0.398, 0.013),  # Landmark 2 (thumb tip)
-                        # Other landmarks...
-                    ],  # First hand (e.g., left hand)
-                    
-                    [
-                        (0.486, 0.239, 0.014),  # Landmark 0 (wrist)
-                        (0.505, 0.297, 0.018),  # Landmark 1 (thumb base)
-                        (0.523, 0.349, 0.016),  # Landmark 2 (thumb tip)
-                        # Other landmarks...
-                    ]  # Second hand (e.g., right hand)
-                ]
-            ```
+        tuple
+            (raw_mp_result, hand_landmarks)
+            - raw_mp_result: The raw result from MediaPipe (for debugging or further processing).
+            - hand_landmarks: List of lists of (x, y, z) tuples for each detected hand.
         """
         if not preprocessed:
             image = self.preprocess(image)
-        inference_result = self.hands_pose.process(image)
-        
+        raw_mp_result = self.hands_pose.process(image)
+
         hand_landmarks = []
-        if inference_result.multi_hand_landmarks:
-            for hand_landmark in inference_result.multi_hand_landmarks:
+        if raw_mp_result.multi_hand_landmarks:
+            for hand_landmark in raw_mp_result.multi_hand_landmarks:
                 hand_landmarks.append([
                     (lm.x, lm.y, lm.z) for lm in hand_landmark.landmark
                 ])
 
-        return hand_landmarks
+        return raw_mp_result, hand_landmarks

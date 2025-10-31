@@ -36,7 +36,7 @@ def run_hand_tracking_test():
     
     # 1. Initialize Config and Model
     # These now use the *real* classes you imported
-    config = HandsConfig(min_det=0.7, min_track=0.7) 
+    config = HandsConfig(min_detection_confidence=0.7, min_tracking_confidence=0.7) 
     hand_tracker = MediapipeHandsModel(model_settings=config)
     
     # 2. Initialize MediaPipe Drawing Utilities
