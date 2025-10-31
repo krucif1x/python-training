@@ -2,7 +2,7 @@ import json
 
 from pydantic import BaseModel
 
-MODEL_CONFIG_PATH = "config/model_settings.json"
+MODEL_CONFIG_PATH = "config/mediapipe_model_settings.json"
 
 class FaceMeshConfig(BaseModel):
     static_image_mode: bool
